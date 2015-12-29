@@ -2,18 +2,41 @@
 # coding=utf-8
 
 """
-Задача на списки:
 
-Дан массив с положительными числами и число N. Вы должны найти N­ую степень
-элемента в массиве с индексом N. Если N за границами массива, тогда вернуть ­1. Не
-забывайте, что первый элемент имеет индекс 0.
-Давайте посмотрим на несколько примеров:
-­ массив = [1, 2, 3, 4] и N = 2, тогда результат 32
-­ массив = [1, 2, 3] и N = 3, но N за границами массива, так что результат ­1.
-Входные значения: Два агумента. Массив как список целых и число как целое.
-Выходные значения: Целое число.
-
-Примеры:
-Вход: [1, 2, 3, 4],  2
-Выход: 9
 """
+import json
+
+class Player(object):
+    def __init__(self, name=None, email=None, password=None, session=None, wallet=None):
+        self.name = name
+        self.email = email
+        self.password = password
+        self.session = session
+        self.wallet = wallet
+
+    def as_dict(self):
+        data_to_save = {
+            "type": self.__class__.__name__,
+            "name": self.name
+            "email": self.email
+            "password": self.password
+            "session": self.session
+            "wallet": self.wallet
+        }
+        return data_to_save
+
+    def save(self, file_object):
+        json.dump(self.as_dict(), file_object)
+
+    def load(self, file_object):
+        object_as_dict = json.load(file_object)
+        self.name = object_as_dict["name"]
+        self.email = object_as_dict["email"]
+        self.password = object_as_dict["password"]
+        self.session = object_as_dict["session"]
+        self.wallet = object_as_dict["wallet"]
+        return object_as_dict
+
+class Moderator(Player):
+
+class Administrator(Moderator):
