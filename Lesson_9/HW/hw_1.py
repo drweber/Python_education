@@ -7,12 +7,15 @@
 import json
 
 class Player(object):
-    def __init__(self, name=None, email=None, password=None, session=[], wallet={}):
+    def __init__(self, name=None, email=None, password=None):
         self.name = name
         self.email = email
         self.password = password
-        self.session = session
-        self.wallet = wallet
+        self.sessions = []
+        self.wallet = {}
+
+    def load_money(self):
+        pass
 
     def as_dict(self):
         data_to_save = {
@@ -20,7 +23,7 @@ class Player(object):
             "name": self.name,
             "email": self.email,
             "password": self.password,
-            "session": self.session,
+            "sessions": self.sessions,
             "wallet": self.wallet
         }
         return data_to_save
@@ -43,10 +46,10 @@ class Player(object):
     def logout(self):
         pass
 
-    def give_money(self):
+    def give_money(self, code, amount):
         pass
 
-    def take_money(self):
+    def take_money(self, code, amount):
         pass
 
 class Moderator(Player):
@@ -56,17 +59,26 @@ class Administrator(Moderator):
     pass
 
 class Session(object):
-    def __init__(self, start_time=None, finish_time=None):
+    def __init__(self, start_time, finish_time):
         self.start_time = start_time
         self.finish_time = finish_time
+        self.id = 'generate.id'
 
 class Money(object):
-    def __init__(self, code=None, ammount=0):
+    def __init__(self, code, ammount):
         self.code = code
         self.ammount = ammount
 
+MONEY_CODE_1 = 'gems'
+MONEY_CODE_2 = 'woods'
+MONEY_CODE_3 = 'coins'
+
 if __name__ == "__main__":
-    player1 = Player('chukcha','chukcha@mail.ref','chukcha_ne_durak',Session,{})
-    jems = Money('jems',0)
-    wood = Money('wood',0)
-    coins = Money('coins',0)
+    player1 = Player('chukcha','chukcha@mail.ref','chukcha_ne_durak')
+    gems = Money(MONEY_CODE_1,0)
+    wood = Money(MONEY_CODE_2,0)
+    coins = Money(MONEY_CODE_3,0)
+    
+    player1.wallet = {MONEY_CODE_1: gems, MONEY_CODE_2: wood, MONEY_CODE_3: coins}
+    
+ 
